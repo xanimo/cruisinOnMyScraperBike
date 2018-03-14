@@ -1,0 +1,38 @@
+		<!-- Jumbotron search fields -->
+		<div class="jumbotron">
+			<div class="container">
+				<h1 class="display-4">News Scraper</h1>
+				<div class="form-row">
+
+				</div>
+				<div class="form-row">
+					
+				</div>
+				<div class="form-row">
+					
+				</div>
+			</div>
+		</div>
+		
+		<!-- Results list -->
+		{{#if result}}
+		<div class="container">
+			<div class="col-md-12">
+				<h1 class="display-5">Results</h1>
+				<!-- Rendering results -->
+				<div class="list-group">
+					{{#each result}}
+				  <a href="headlines/{{this._id}}" class="list-group-item list-group-item-action flex-column align-items-start active">
+				    <div class="d-flex w-100 justify-content-between">
+				      <h5 class="mb-1">{{this.title}}</h5>
+				      <small>3 days ago</small>
+				    </div>
+				    <p class="mb-1"><a class="list-group-item list-group-item-action flex-column align-items-start active" href="{{this.link}}" target="_blank">{{this.link}}</a></p>
+				    <small></small>
+				  </a>
+				  {{/each}}
+				</div>
+			</div>
+		</div>
+		<hr />
+		{{/if}}

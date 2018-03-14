@@ -1,0 +1,36 @@
+<div class="container">
+	{{#if result}}
+			{{#result}}
+	<div class="row">
+		<div class="col-md-10">
+		{{#unless result.note}}
+		<p>No comments.  Add yours below!</p>
+		{{/unless}}
+		<ul>
+			<li>
+				<h5>{{this.title}}</h5>
+				<p>{{this.body}}</p>
+				<button class="btn btn-warning" data-comment="{{this._id}}">Delete Note</button>
+			</li>
+		</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10">
+				<div class="form-row">
+					<label for="title">Title:</label>
+					<input class="form-control" type="text" id="titleinput">
+				</div>
+				<div class="form-row">
+					<label for="body">Note:</label>
+					<input class="form-control" type="text" id="bodyinput">
+				</div>
+					<br />
+				<div class="form-row">
+				<button id="savenote" class="btn btn-primary form-control" type="submit" data-id="{{this._id}}">Submit</button>
+				</div>
+			{{/result}}
+	{{/if}}
+		</div>
+	</div>
+</div>
