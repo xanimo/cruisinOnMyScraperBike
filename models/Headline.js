@@ -15,6 +15,10 @@ let HeadlineSchema = new Schema({
 	note: {
 		type: Schema.Types.ObjectId,
 		ref: "Note"
+	},
+	date: {
+		type: Date,
+		default: Date.now
 	}
 });
 

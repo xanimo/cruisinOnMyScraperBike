@@ -9,19 +9,31 @@
 					
 				</div>
 				<div class="form-row">
-					
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Results list -->
 		{{#if result}}
 		<div class="container">
 			<div class="col-md-12">
 				<h1 class="display-5">Results</h1>
 				<!-- Rendering results -->
-				<div class="list-group">
+				
 					{{#each result}}
+					<a href="headlines/{{this._id}}" class="list-group-item list-group-item-action flex-column align-items-start bg-light">
+						<br />
+						<div class="card mb-3">
+<!-- 						  <img class="card-img-top" src="..." alt="Card image cap"> -->
+						  <div class="card-body">
+						    <h5 class="card-title">{{this.title}}</h5>
+						    <p class="card-text">{{this.link}}</p>
+						    <p class="card-text"><small id="date" class="text-muted">{{this.date}}</small></p>
+						  </div>
+						</div>
+					</a>
+<!-- 			
+				<div class="list-group">
 				  <a href="headlines/{{this._id}}" class="list-group-item list-group-item-action flex-column align-items-start active">
 				    <div class="d-flex w-100 justify-content-between">
 				      <h5 class="mb-1">{{this.title}}</h5>
@@ -29,9 +41,8 @@
 				    </div>
 				    <p class="mb-1"><a class="list-group-item list-group-item-action flex-column align-items-start active" href="{{this.link}}" target="_blank">{{this.link}}</a></p>
 				    <small></small>
-				  </a>
+				  </a> -->
 				  {{/each}}
-				</div>
 			</div>
 		</div>
 		<hr />
