@@ -29,9 +29,12 @@
 						    <h5 class="card-title">{{this.title}}</h5>
 						    <p class="card-text">{{this.link}}</p>
 						    <p class="card-text"><small id="date" class="text-muted">{{this.date}}</small></p>
+						    <button id="saveheadline" class="btn btn-primary" data-id="{{this._id}}">Save Headline</button>
+						    <button id="deleteheadline" class="btn btn-warning float-right" data-id="{{this._id}}">Delete Headline</button>
 						  </div>
 						</div>
 					</a>
+					<br />
 <!-- 			
 				<div class="list-group">
 				  <a href="headlines/{{this._id}}" class="list-group-item list-group-item-action flex-column align-items-start active">
