@@ -37,9 +37,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Init Mongoose ORM
-let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+let MONGOLAB_YELLOW_URI = process.env.MONGOLAB_YELLOW_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, {
+mongoose.connect(MONGOLAB_YELLOW_URI, {
   useMongoClient: true
 });
 
