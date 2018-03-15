@@ -22,7 +22,6 @@ exports.scrape = function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
-
       // Create a new Article using the `result` object built from scraping
       db.Headline.findOne({ 
         'link': result.link }, 
@@ -35,6 +34,7 @@ exports.scrape = function(req, res) {
         .then(function(dbHeadline) {
           // View the added result in the console
           console.log(dbHeadline);
+          return db.User.findOneAndUpdate({ _id: req.params.id }, { headline: dbHeadline._id }, { new: true });
         })
         .catch(function(err) {
           // If an error occurred, send it to the client

@@ -56,7 +56,7 @@ db.once('open', function() {
 });
 
 // Configure routes
-let authRoute = require('./routes/index.js')(app, passport);
+let authRoute = require('./routes')(app, passport);
 
 // Load passport strategies
 require('./config/passport/passport.js')(passport, db.User);
