@@ -1,18 +1,17 @@
 		<!-- Jumbotron search fields -->
+				<h1 class="display-4">News Scraper</h1>
 		<div class="jumbotron">
 			<div class="container">
-				<h1 class="display-4">News Scraper</h1>
-				<div class="form-row">
-					<button id="scrape" class="btn btn-dark" data-id={{this._id}}></button>
-				</div>
 				<div class="form-row">
 					
 				</div>
-				<div class="form-row">
+  				<div class="form-row">
+					<button id="scrape" class="btn btn-dark form-control" data-id="{{user}}">Scrape Headlines</button>
 				</div>
 			</div>
 		</div>
 
+					
 		<!-- Results list -->
 		{{#if result}}
 		<div class="container">

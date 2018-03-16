@@ -5,6 +5,7 @@ let db = require("../models/");
 var exports = module.exports = {}
 
 exports.scrape = function(req, res) {
+  console.log(req.session.passport.user);
 	// First, we grab the body of the html with request
   axios.get("http://www.echojs.com/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -34,7 +35,7 @@ exports.scrape = function(req, res) {
         .then(function(dbHeadline) {
           // View the added result in the console
           console.log(dbHeadline);
-          db.User.findByIdAndUpdate({ _id: req.params.id }, {$push: {headline: dbHeadline._id }},
+          db.User.findByIdAndUpdate({ _id: req.session.passport.user }, {$push: {headline: dbHeadline._id }},
             {safe: true, upsert: true, new: true});
         })
         .catch(function(err) {
@@ -59,7 +60,7 @@ exports.signin = function(req, res) {
 }
 
 exports.account = function(req, res) {
-  res.render('account');
+  res.render('account', { user: req.session.passport.user });
 }
 
 exports.index = function(req, res) {

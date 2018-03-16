@@ -41,7 +41,7 @@ exports.findAll = (req, res) => {
     .then(dbHeadline => {
     	console.log(dbHeadline.saved);
       // If all article are successfully found, send them back to the client
-      res.render("home", {result: dbHeadline});
+      res.render("home", {result: dbHeadline, user: req.session.passport.user });
     })
     .catch(err => {
       // If an error occurs, send the error back to the client

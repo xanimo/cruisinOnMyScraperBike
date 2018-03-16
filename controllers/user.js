@@ -15,7 +15,7 @@ exports.fetch = function(req, res) {
 exports.fetchOne = function(req, res) {
 	db.User.findOne({
 		_id: req.params.id
-	})
+	}, 'firstname lastname email last_login')
 	.then(dbUser => {
 		res.json(dbUser);
 	})

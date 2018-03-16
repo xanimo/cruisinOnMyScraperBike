@@ -17,6 +17,7 @@ module.exports = function(passport, user) {
 			return bCrypt.compareSync(password, userpass);
 		}
 		User.findOne({ email: email }, function(err, user) {
+			
 			if (err) {
 				console.log(err);
 			}
@@ -30,6 +31,7 @@ module.exports = function(passport, user) {
 					message: 'Incorrect password.'
 				});
 			}
+
 			return done(null, user);
 		});
 	}

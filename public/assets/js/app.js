@@ -1,8 +1,9 @@
-let urlId, page, concatUrl;
+let urlId, page, concatUrl, user;
 
 $(function() {
   page = window.location.pathname.split('/')[1];
   urlId = window.location.pathname.split('/')[2];
+
   if (urlId) {
     concatUrl = urlId;
   } else {
@@ -11,7 +12,17 @@ $(function() {
   if (page === 'saved') {
   fetchJson(concatUrl)
   }
-  
+  let uid = $('#uid').val();
+  console.log(uid);
+
+  switch (page) {
+    case 'saved':
+    break;
+    case 'account':
+    getUser('user', uid);
+    break;
+  }
+
 });
 
 fetchJson = (url) => {
@@ -67,16 +78,36 @@ removeSaved = (id) => {
   location.reload(true);
 }
 
-get = (url, id) => {
+getUser = (url, id) => {
   if (id) {
-    url = url + '/' + id;
+    url = 'user/' + id;
   }
   $.ajax({
     method: "GET",
     url: url, 
   }).then(data => {
-    return data;
+    console.log(data)
+    let html = "";
+    html += "<h5>Welcome back ";
+    html += data.firstname + " " + data.lastname + "</h1>";
+    html += "<small>Last login: ";
+    html += "" + localDate(data.last_login) + "</small>";
+    html += "<hr />";
+    $('#root').html(html);
+
+    let tr = "";
+    tr += "<td>" + data._id + "</td>";
+    tr += "<td>" + data.firstname + " " + data.lastname + "</td>";
+    tr += "<td>" + data.email + "</td>";
+    $('#contact > tr').html(tr);
   })
+}
+
+localDate = (date) => {
+  let d = new Date(date);
+  d.toLocaleDateString('en-US');
+  console.log(d);
+  return d;
 }
 
 // When you click the savenote button
@@ -140,6 +171,16 @@ $(document).on("click", "#deleteheadline", function(e) {
   $.ajax({
     method: "DELETE",
     url: "/headlines/" + thisId
+  })
+  location.reload(true);
+});
+
+$(document).on("click", "#scrape", function(e) {
+  e.preventDefault();
+  let thisId = $(this).attr("data-id");
+  $.ajax({
+    method: "GET",
+    url: "/fetch/" + thisId
   })
   location.reload(true);
 });
