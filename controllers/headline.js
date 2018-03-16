@@ -3,7 +3,7 @@ let db = require('../models/');
 var exports = module.exports = {}
 
 exports.index = (req, res) => {
-	res.render('home');
+	res.render('home', { uid: req.user._id });
 }
 
 exports.saved = (req, res) => {
@@ -33,6 +33,8 @@ exports.savedJson = (req, res) => {
       res.json(err);
     });
 }
+
+
 
 exports.findAll = (req, res) => {
 	db.Headline.find({saved:false})
@@ -128,6 +130,13 @@ exports.delete = (req, res) => {
 	db.Headline.findByIdAndRemove({
 		_id: req.params.id
 	}).then(dbHeadline => {
+		return db.User.findOneAndUpdate({
+    		_id: req.params.uid
+    	}, {
+    		$pull: {
+    			headline: dbHeadline._id
+    		} 
+    	})
 		res.json(dbHeadline)
 	})
 	.catch(err => {

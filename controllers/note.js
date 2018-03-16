@@ -8,7 +8,7 @@ exports.findAll = function(req, res) {
       // If all article are successfully found, send them back to the client
       res.json({result: dbNote});
     })
-    .catch(function(err) {
+    .catch(err => {
       // If an error occurs, send the error back to the client
       res.json(err);
     });
@@ -22,7 +22,7 @@ exports.findOne = function(req, res) {
       // If all article are successfully found, send them back to the client
       res.json({result: dbNote});
     })
-    .catch(function(err) {
+    .catch(err => {
       // If an error occurs, send the error back to the client
       res.json(err);
     });
@@ -30,14 +30,14 @@ exports.findOne = function(req, res) {
 
 exports.create = function(req, res) {
     db.Note.create(req.body)
-    .then(function(dbNote) {
+    .then(dbNote => {
       return db.Headline.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
     })
-    .then(function(dbHeadline) {
+    .then(dbHeadline => {
       // If the Article was updated successfully, send it back to the client
       res.json({result: dbHeadline});
     })
-    .catch(function(err) {
+    .catch(err => {
       // If an error occurs, send it back to the client
       res.json(err);
     });
@@ -46,7 +46,7 @@ exports.create = function(req, res) {
 exports.delete = function(req, res) {
 	db.Note.findByIdAndRemove({
 		_id: req.params.noteid
-	}).then(function(dbNote) {
+	}).then(dbNote => {
 		return db.Headline.findOneAndUpdate({
 			_id: req.params.id
 		}, {
@@ -54,7 +54,7 @@ exports.delete = function(req, res) {
 				note: dbNote._id
 			}
 		})
-		.catch(function(err) {
+		.catch(err => {
 			res.json(err);
 		});
 	});

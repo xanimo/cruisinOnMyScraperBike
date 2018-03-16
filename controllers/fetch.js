@@ -34,7 +34,8 @@ exports.scrape = function(req, res) {
         .then(function(dbHeadline) {
           // View the added result in the console
           console.log(dbHeadline);
-          return db.User.findOneAndUpdate({ _id: req.params.id }, { headline: dbHeadline._id }, { new: true });
+          db.User.findByIdAndUpdate({ _id: req.params.id }, {$push: {headline: dbHeadline._id }},
+            {safe: true, upsert: true, new: true});
         })
         .catch(function(err) {
           // If an error occurred, send it to the client

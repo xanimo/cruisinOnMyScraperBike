@@ -11,6 +11,7 @@ $(function() {
   if (page === 'saved') {
   fetchJson(concatUrl)
   }
+  
 });
 
 fetchJson = (url) => {
@@ -60,10 +61,22 @@ removeSaved = (id) => {
   $.ajax({
     method: "POST",
     url: "/headline/" + id + "/false",
-  }).then(function(data) {
+  }).then(data => {
     console.log(data);
   });
   location.reload(true);
+}
+
+get = (url, id) => {
+  if (id) {
+    url = url + '/' + id;
+  }
+  $.ajax({
+    method: "GET",
+    url: url, 
+  }).then(data => {
+    return data;
+  })
 }
 
 // When you click the savenote button

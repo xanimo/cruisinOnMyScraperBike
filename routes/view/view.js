@@ -12,8 +12,6 @@ module.exports = (app, passport) => {
 	app.get('/account', isLoggedIn, fetch.account);
 	//destroy session redirect signin
 	app.get('/logout', fetch.logout);
-	//render headline landing
-	app.get('/headlines', isLoggedIn, headline.index);
 	//render headline saved
 	app.get('/saved', isLoggedIn, headline.saved);
 }
