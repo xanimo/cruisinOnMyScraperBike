@@ -29,11 +29,12 @@ exports.scrape = function(req, res) {
       })
       .populate('headline')
       .then(dbUser => {
+        console.log(dbUser.headline.link);
         db.Headline.findOne({ 
           'link': dbUser.headline.link }, 
           'link title', 
           function(err, headline) {
-            if (err) return handleError(err);
+            if (err) return console.log(err);
             console.log(headline);
             if (!headline) {
             db.Headline.create(result)
