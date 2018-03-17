@@ -1,25 +1,30 @@
+{{#if result}}
+	{{#each result}}
 		<!-- Jumbotron search fields -->
-				<h1 class="display-4">News Scraper</h1>
+		<h1 class="display-4">News Scraper</h1>
 		<div class="jumbotron">
 			<div class="container">
 				<div class="form-row">
-					{{result}}
+<!-- 
+					{{this.last_login}} -->
+
+<!-- 					{{this.email}}
+					{{this.firstname}}
+					{{this.lastname}} -->
 				</div>
   				<div class="form-row">
-					<button id="scrape" class="btn btn-dark form-control" data-id="{{user}}">Scrape Headlines</button>
+					<button id="scrape" class="btn btn-dark form-control" data-id="{{this._id}}">Scrape Headlines</button>
 				</div>
 			</div>
 		</div>
 
-					
+		{{#if this.headline}}
 		<!-- Results list -->
-		{{#if result}}
 		<div class="container">
 			<div class="col-md-12">
 				<h1 class="display-5">Results</h1>
+				{{#each this.headline}}
 				<!-- Rendering results -->
-				
-					{{#each result}}
 					<a href="headlines/{{this._id}}" class="list-group-item list-group-item-action flex-column align-items-start bg-light">
 						<br />
 						<div class="card mb-3">
@@ -34,6 +39,8 @@
 						</div>
 					</a>
 					<br />
+				{{/each}}
+		{{/if}}	
 <!-- 			
 				<div class="list-group">
 				  <a href="headlines/{{this._id}}" class="list-group-item list-group-item-action flex-column align-items-start active">
@@ -48,4 +55,4 @@
 			</div>
 		</div>
 		<hr />
-		{{/if}}
+{{/if}}

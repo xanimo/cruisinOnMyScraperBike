@@ -12,6 +12,21 @@ exports.fetch = function(req, res) {
 	});
 }
 
+//user authenticated headlines
+exports.fetchHeadline = function(req, res) {
+	db.User.find({
+		_id: req.session.passport.user
+	}, 'firstname lastname email last_login')
+	.populate('headline', null, { saved: false })
+	.populate('note')
+	.then(dbUser => {
+		res.render('results', { result: dbUser });
+	})
+	.catch(err => {
+		res.json(err);
+	});
+}
+
 exports.fetchOne = function(req, res) {
 	db.User.findOne({
 		_id: req.params.id

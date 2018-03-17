@@ -3,24 +3,27 @@ let urlId, page, concatUrl, user;
 $(function() {
   page = window.location.pathname.split('/')[1];
   urlId = window.location.pathname.split('/')[2];
-
+  console.log(window.location.pathname.split('/').length);
+  console.log(page + '/' + urlId)
   if (urlId) {
     concatUrl = urlId;
   } else {
     concatUrl = page + 'Json';
   }
-  if (page === 'saved') {
-  fetchJson(concatUrl)
-  }
-  let uid = $('#uid').val();
-  console.log(uid);
+
 
   switch (page) {
     case 'saved':
-    break;
+        // fetch saved headlines
+        fetchJson(concatUrl)
+      break;
     case 'account':
-    getUser('user', uid);
-    break;
+        // grab user id for client side fetch
+        let uid = $('#uid').val();
+        console.log(uid);
+        // client side fetch
+        getUser('user', uid);  
+      break;
   }
 
 });

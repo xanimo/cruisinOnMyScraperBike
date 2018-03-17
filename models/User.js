@@ -40,7 +40,7 @@ let UserSchema = new Schema({
 	headline: [
 		{
 			type: Schema.Types.ObjectId,
-			ref: "Headline"
+			ref: 'Headline'
 		}
 	]
 });

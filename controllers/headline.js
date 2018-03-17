@@ -131,7 +131,7 @@ exports.delete = (req, res) => {
 		_id: req.params.id
 	}).then(dbHeadline => {
 		return db.User.findOneAndUpdate({
-    		_id: req.params.uid
+    		_id: req.session.passport.user
     	}, {
     		$pull: {
     			headline: dbHeadline._id

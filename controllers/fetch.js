@@ -24,30 +24,45 @@ exports.scrape = function(req, res) {
         .children("a")
         .attr("href");
       // Create a new Article using the `result` object built from scraping
-      db.Headline.findOne({ 
-        'link': result.link }, 
-        'link title', 
-        function(err, headline) {
-          if (err) return handleError(err);
-          console.log(headline);
-          if (!headline) {
-      db.Headline.create(result)
-        .then(function(dbHeadline) {
-          // View the added result in the console
-          console.log(dbHeadline);
-          db.User.findByIdAndUpdate({ _id: req.session.passport.user }, {$push: {headline: dbHeadline._id }},
-            {safe: true, upsert: true, new: true});
-        })
-        .catch(function(err) {
-          // If an error occurred, send it to the client
-          return res.json(err);
-        }); 
-        }     
-      });
+      db.User.findOne({
+        _id: req.session.passport.user
+      })
+      .populate('headline')
+      .then(dbUser => {
+        db.Headline.findOne({ 
+          'link': dbUser.headline.link }, 
+          'link title', 
+          function(err, headline) {
+            if (err) return handleError(err);
+            console.log(headline);
+            if (!headline) {
+            db.Headline.create(result)
+            .then(dbHeadline => {
+              // View the added result in the console
+              console.log(dbHeadline._id);
+              db.User.findOneAndUpdate({ 
+                _id: req.session.passport.user },
+                { $push: { headline: dbHeadline._id }},
+                { new: true })
+              .then(dbUser => {
+                console.log(dbUser);
+              })
+              .catch(err => {
+                return res.json(err);
+              });
+            })
+          .catch(function(err) {
+            // If an error occurred, send it to the client
+            return res.json(err);
+          });
+          }     
+        });
+        res.render('home', res.json(dbUser));
+      }); 
     });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-    res.redirect("/headlines");
+
   });
 }
 

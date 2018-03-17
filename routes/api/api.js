@@ -34,6 +34,8 @@ module.exports = (app, passport) => {
 
 	//fetch user
 	app.get('/user', isLoggedIn, user.fetch);
+	//fetch headlines by user
+	app.get('/search', isLoggedIn, user.fetchHeadline);
 	//fetch one user
 	app.get('/user/:id', isLoggedIn, user.fetchOne);
 	//create user
