@@ -26,7 +26,7 @@ exports.savedJson = (req, res) => {
     .then(dbHeadline => {
     	console.log(dbHeadline.saved);
       // If all article are successfully found, send them back to the client
-      res.json({result: dbHeadline});
+      res.json({ result: dbHeadline });
     })
     .catch(err => {
       // If an error occurs, send the error back to the client
@@ -69,7 +69,7 @@ exports.findOne = (req, res) => {
     .populate("note")
     .then(dbHeadline => {
       // If all Users are successfully found, send them back to the client
-      res.render("view", {result: dbHeadline});
+      res.render("view", {result: dbHeadline, user: req.session.passport.user });
     })
     .catch(err => {
       // If an error occurs, send the error back to the client

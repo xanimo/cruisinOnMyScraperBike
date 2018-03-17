@@ -1,6 +1,7 @@
 let urlId, page, concatUrl, user;
 
 $(function() {
+  //localhost:8000/{page}
   page = window.location.pathname.split('/')[1];
   urlId = window.location.pathname.split('/')[2];
   console.log(window.location.pathname.split('/').length);
@@ -11,8 +12,9 @@ $(function() {
     concatUrl = page + 'Json';
   }
 
-
+  //switch (case)
   switch (page) {
+    //if (page === 'saved')
     case 'saved':
         // fetch saved headlines
         fetchJson(concatUrl)
@@ -24,6 +26,8 @@ $(function() {
         // client side fetch
         getUser('user', uid);  
       break;
+    case 'search':
+        // 
   }
 
 });
@@ -31,6 +35,7 @@ $(function() {
 fetchJson = (url) => {
   $.get(url,
     function(data) {
+      console.log(data)
       // if (data.result.date) {
       //   $('#date').text(data.result.date);
       //   console.log(data.result.date);

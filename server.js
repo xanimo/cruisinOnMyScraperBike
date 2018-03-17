@@ -9,6 +9,7 @@ let request = require('request');
 let dotenv = require('dotenv');
 let passport = require('passport');
 let session = require('express-session');
+let http = require('http');
 
 
 // Initialize Express
@@ -61,7 +62,19 @@ let authRoute = require('./routes')(app, passport);
 // Load passport strategies
 require('./config/passport/passport.js')(passport, db.User);
 
+const server = http.createServer(app);
+let curApp = app;
+
+
 // Listen & notify
-app.listen(PORT, function() {
+server.listen(PORT, function() {
 	console.log("App running on " + PORT);
 });
+
+if (module.hot) {
+	module.hot.accept(server, () => {
+		server.removeListener('request', curApp)
+		server.on('request', app);
+		curApp = app
+	});
+}

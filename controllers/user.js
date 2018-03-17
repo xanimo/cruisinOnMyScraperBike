@@ -18,9 +18,8 @@ exports.fetchHeadline = function(req, res) {
 		_id: req.session.passport.user
 	}, 'firstname lastname email last_login')
 	.populate('headline', null, { saved: false })
-	.populate('note')
 	.then(dbUser => {
-		res.render('results', { result: dbUser });
+		res.render('results', { result: dbUser, user: req.session.passport.user });
 	})
 	.catch(err => {
 		res.json(err);

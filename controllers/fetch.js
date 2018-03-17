@@ -57,12 +57,11 @@ exports.scrape = function(req, res) {
           });
           }     
         });
-        res.render('home', res.json(dbUser));
       }); 
     });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-
+    res.render('results', { user: req.session.passport.user })
   });
 }
 
@@ -79,7 +78,7 @@ exports.account = function(req, res) {
 }
 
 exports.index = function(req, res) {
-  res.render('index');
+  res.render('index', { user: req.session.passport.user });
 }
 
 exports.logout = function(req, res) {

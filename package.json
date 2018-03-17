@@ -18,6 +18,9 @@
   "homepage": "https://github.com/xanimo/cruisinOnMyScraperBike#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
     "cheerio": "^1.0.0-rc.2",
@@ -26,10 +29,13 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "mongoose": "^5.0.9",
+    "mongoose-pagination": "^1.0.0",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "start-server-webpack-plugin": "^2.2.5",
+    "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
     "webpack": "^4.1.1"
