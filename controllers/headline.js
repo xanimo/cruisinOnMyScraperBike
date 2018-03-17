@@ -7,7 +7,7 @@ exports.index = (req, res) => {
 }
 
 exports.saved = (req, res) => {
-	res.render('saved');
+	res.render('saved', { user: req.session.passport.user });
 	// db.Headline.find({saved:true})
  //    .then(dbHeadline => {
  //    	console.log(dbHeadline.saved);

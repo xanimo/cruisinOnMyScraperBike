@@ -42,8 +42,7 @@ exports.scrape = function(req, res) {
               console.log(dbHeadline._id);
               db.User.findOneAndUpdate({ 
                 _id: req.session.passport.user },
-                { $push: { headline: dbHeadline._id }},
-                { new: true })
+                { $push: { headline: dbHeadline._id }})
               .then(dbUser => {
                 console.log(dbUser);
               })
@@ -61,7 +60,8 @@ exports.scrape = function(req, res) {
     });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-    res.render('results', { user: req.session.passport.user })
+
+  res.render('results', { user: req.session.passport.user })
   });
 }
 

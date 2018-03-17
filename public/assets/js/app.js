@@ -1,34 +1,41 @@
 let urlId, page, concatUrl, user;
 
 $(function() {
-  //localhost:8000/{page}
-  page = window.location.pathname.split('/')[1];
-  urlId = window.location.pathname.split('/')[2];
-  console.log(window.location.pathname.split('/').length);
-  console.log(page + '/' + urlId)
-  if (urlId) {
-    concatUrl = urlId;
-  } else {
-    concatUrl = page + 'Json';
+  length_url = window.location.pathname.split('/').length;
+
+  console.log(length_url);
+
+  if (length_url >= 1) {
+      //localhost:8000/{page}
+      page = window.location.pathname.split('/')[1];
+      if (length_url >= 2) {
+      urlId = window.location.pathname.split('/')[2];
+          if (urlId) {
+            concatUrl = urlId;
+          } else {
+          concatUrl = page + 'Json';
+          }
+          //switch (case)
+          switch (page) {
+            //if (page === 'saved')
+            case 'saved':
+                // fetch saved headlines
+                fetchJson(concatUrl)
+              break;
+            case 'account':
+                // grab user id for client side fetch
+                let uid = $('#uid').val();
+                console.log(uid);
+                // client side fetch
+                getUser('user', uid);  
+              break;
+            case 'search':
+                // 
+          }
+      }
   }
 
-  //switch (case)
-  switch (page) {
-    //if (page === 'saved')
-    case 'saved':
-        // fetch saved headlines
-        fetchJson(concatUrl)
-      break;
-    case 'account':
-        // grab user id for client side fetch
-        let uid = $('#uid').val();
-        console.log(uid);
-        // client side fetch
-        getUser('user', uid);  
-      break;
-    case 'search':
-        // 
-  }
+
 
 });
 
@@ -57,17 +64,19 @@ fetchJson = (url) => {
             html += "</div><h5 class='card-header'></h5><div class='card-body'>";
             html += "<h5 class='card-title'>" + data.result[i].note.title + "</h5>";
             html += "<p class='card-text'>" + data.result[i].note.body + "</p>"; 
-            html += "<button id='updatenote' class='btn btn-warning' type='button' data-toggle='collapse' data-target='#collapse" + data.result[i]._id + "' aria-expanded='false' aria-controls='collapseExample'>Update</button>";
-
+            html += "<a href='headlines/" + data.result[i]._id + "' class='btn btn-primary'>Update</a>";
+            // html += "<button class='btn btn-warning' type='button' data-toggle='collapse' data-target='#collapse" + data.result[i]._id + "' aria-expanded='false' aria-controls='collapseExample'>Update</button>";
             html += "<div class='collapse' id='collapse" + data.result[i]._id + "'><div class='card-body'>";
             html += "<div class='form-row'><label for='titleinput'>Title:</label>";
             html += "<input class='form-control' type='text' id='titleinput" + data.result[i].note._id + "' value='" + data.result[i].note.title + "'>";
             html += "</div><div class='form-row'><label for='bodyinput'>Note:</label>";
             html += "<input class='form-control' type='text' id='bodyinput" + data.result[i].note._id + "' value='" + data.result[i].note.body + "'>";
             html += "</div><br /><div class='form-row'>";
-            html += "<button id='" + data.result[i]._id + "' class='btn btn-dark' onClick='updateNote(this.id)'>Update Note</button>&nbsp";
-            html += "<button id='" + data.result[i]._id + "' class='btn btn-dark float-right' onClick='deleteNote(this.id)'>Delete Note</button></div></div></div>";                 
-            }            
+            html += "<button id='updatenote' data-id='" + data.result[i]._id + "' class='btn btn-dark' onClick='location.reload(true);'>Update Note</button>&nbsp";
+            html += "<button id='deletenote' data-id='" + data.result[i]._id + "' class='btn btn-dark float-right'>Delete Note</button></div></div></div>";                 
+            } else {
+              html += "<a href='headlines/" + data.result[i]._id + "' class='btn btn-primary'>Update</a>";
+            }        
             html += "</div></div>";
           }
         }
@@ -190,5 +199,8 @@ $(document).on("click", "#scrape", function(e) {
     method: "GET",
     url: "/fetch/" + thisId
   })
-  location.reload(true);
+  .then(result => {
+    $('body').html(result);
+  });
+  // location.reload(true)
 });
