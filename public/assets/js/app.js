@@ -200,7 +200,7 @@ $(document).on("click", "#scrape", function(e) {
     url: "/fetch/" + thisId
   })
   .then(result => {
-    $('body').html(result);
+    console.log(result);
+    location.reload(true);
   });
-  // location.reload(true)
 });

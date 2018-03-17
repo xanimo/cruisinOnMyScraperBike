@@ -39,12 +39,14 @@ exports.scrape = function(req, res) {
             db.Headline.create(result)
             .then(dbHeadline => {
               // View the added result in the console
-              console.log(dbHeadline._id);
+              // console.log(dbHeadline._id);
               db.User.findOneAndUpdate({ 
                 _id: req.session.passport.user },
-                { $push: { headline: dbHeadline._id }})
+                { $push: { headline: dbHeadline._id }},
+                { safe: true, upsert: true, new: false })
+              // .populate('headline')
               .then(dbUser => {
-                console.log(dbUser);
+                // console.log(dbUser);
               })
               .catch(err => {
                 return res.json(err);
@@ -60,8 +62,7 @@ exports.scrape = function(req, res) {
     });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-
-  res.render('results', { user: req.session.passport.user })
+    res.redirect('/search');
   });
 }
 
