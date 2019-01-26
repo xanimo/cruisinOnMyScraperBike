@@ -44,7 +44,7 @@ exports.scrape = function(req, res) {
               db.User.findOneAndUpdate({ 
                 _id: req.session.passport.user },
                 { $push: { headline: dbHeadline._id }},
-                { safe: true, upsert: true, new: false })
+                { safe: true, upsert: true, new: true })
               // .populate('headline')
               .then(dbUser => {
                 // console.log(dbUser);
