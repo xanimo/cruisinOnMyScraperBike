@@ -1,80 +1,56 @@
 // Dependencies
-let express = require('express');
-let exphbs = require('express-handlebars');
-let bodyParser = require('body-parser');
-let logger = require('morgan');
-let mongoose = require('mongoose');
-let cheerio = require('cheerio');
-let request = require('request');
-let dotenv = require('dotenv');
-let passport = require('passport');
-let session = require('express-session');
-let http = require('http');
+const express = require('express');
+const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+const http = require('http');
 
+require('dotenv').config();
 
-// Initialize Express
-let app = express();
-let PORT = process.env.PORT || 8000;
+async function run() {
+	const app = express();
+	app.use(logger('dev'));
+	app.use(bodyParser.urlencoded({extended: true}));
+	var hbs = exphbs.create({ /* config */ });
+	app.engine('handlebars', hbs.engine);
+	app.set('view engine', 'handlebars');
+	app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/'));
+	app.use('/scripts', express.static(__dirname + '/node_modules/@popperjs/core/dist/'));
+	app.use('/scripts', express.static(__dirname + '/node_modules/es-module-shims/dist/'));
+	app.use(express.static('css'));
+	app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+	app.use(passport.initialize());
+	app.use(passport.session());
 
-// Init logging & body parser
-app.use(logger('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
-
-// Init handlebar view engine
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-// Set engine
-app.set('view engine', 'handlebars');
-
-// Set public dir for assets
-app.use(express.static('public'));
-
-// Passport
-app.use(session({
-	secret: 'keyboard cat',
-	resave: true,
-	saveUninitialized: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Init Mongoose ORM
-let MONGOLAB_YELLOW_URI = process.env.MONGOLAB_YELLOW_URI || "mongodb://localhost/mongoHeadlines";
-mongoose.Promise = Promise;
-mongoose.connect(MONGOLAB_YELLOW_URI, {
-  useMongoClient: true
-});
-
-let db = mongoose.connection;
-
-// Log db errors
-db.on('error', function(err) {
-  console.log("Mongoose error: ", err);
-});
-
-// Log db success
-db.once('open', function() {
-  console.log("Mongoose connection successful.");
-});
-
-// Configure routes
-let authRoute = require('./routes')(app, passport);
-
-// Load passport strategies
-require('./config/passport/passport.js')(passport, db.User);
-
-const server = http.createServer(app);
-let curApp = app;
-
-
-// Listen & notify
-server.listen(PORT, function() {
-	console.log("App running on " + PORT);
-});
-
-if (module.hot) {
-	module.hot.accept(server, () => {
-		server.removeListener('request', curApp)
-		server.on('request', app);
-		curApp = app
+	const uri = process.env.MONGODB_URL
+	mongoose.Promise = Promise;
+	await mongoose.connect(uri, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false
 	});
+
+	const db = mongoose.connection;
+	db.on('error', function(err) { console.log("Mongoose error: ", err); });
+	db.once('open', function() { console.log("Mongoose connection successful."); });
+
+	require('./routes')(app, passport);
+	require('./config/passport/passport.js')(passport, db.User);
+
+	const PORT = process.env.PORT || 8000;
+	const server = http.createServer(app);
+	server.listen(PORT, function() {
+		console.log("App running on " + PORT);
+	});
+
+	if (module.hot) 
+		module.hot.accept(server, function() {
+			server.removeListener('request', app)
+			server.on('request', app);
+		});
 }
+
+run();
