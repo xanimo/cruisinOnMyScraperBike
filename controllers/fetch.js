@@ -1,6 +1,3 @@
-let axios = require("axios");
-let db = require("../models/");
-
 var exports = module.exports = {}
 
 exports.signup = function(req, res) {
@@ -16,7 +13,7 @@ exports.account = function(req, res) {
 }
 
 exports.index = function(req, res) {
-  res.render('index');
+  res.render('index', { user: req.session.passport.user });
 }
 
 exports.logout = function(req, res) {

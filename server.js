@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const path = require('path');
 const session = require('express-session');
 const http = require('http');
 
@@ -17,16 +18,18 @@ async function run() {
 	var hbs = exphbs.create({ /* config */ });
 	app.engine('handlebars', hbs.engine);
 	app.set('view engine', 'handlebars');
-	app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/'));
-	app.use('/scripts', express.static(__dirname + '/node_modules/@popperjs/core/dist/'));
-	app.use('/scripts', express.static(__dirname + '/node_modules/es-module-shims/dist/'));
-	app.use(express.static('css'));
+	const deps = ['bootstrap', '@popperjs/core', 'es-module-shims'];
+	deps.forEach(dep => {
+		app.use('/public', express.static(path.resolve(`node_modules/${dep}/dist/`)));
+	});
+	app.use(express.static('public'));
 	app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 	app.use(passport.initialize());
 	app.use(passport.session());
 
 	const uri = process.env.MONGODB_URL
 	mongoose.Promise = Promise;
+	mongoose.set('useCreateIndex', true);
 	await mongoose.connect(uri, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,

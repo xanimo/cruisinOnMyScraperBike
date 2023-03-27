@@ -2,12 +2,13 @@
   "name": "cruisinonmyscraperbike",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "main": "server.js",
   "scripts": { 
     "build": "npm run css",
-    "css-compile": "sass --style compressed --source-map --embed-sources --no-error-css --load-path=node_modules scss/:css/",
-    "css-lint": "stylelint scss/",
-    "css-prefix": "postcss --replace css/styles.css --use autoprefixer --map",
+    "css-compile": "sass --style compressed --source-map --embed-sources --no-error-css --load-path=node_modules public/scss/:public/css/",
+    "css-lint": "stylelint public/scss/",
+    "css-prefix": "postcss --replace public/css/styles.css --use autoprefixer --map",
     "css": "npm-run-all css-compile css-prefix",
     "server": "node server.js",
     "start": "npm-run-all --parallel watch server",
@@ -43,20 +44,16 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.3",
-    "babel-loader": "^9.1.2",
-    "babel-preset-env": "^1.7.0",
-    "start-server-webpack-plugin": "^2.2.5",
-    "webpack": "^5.1.1",
-    "webpack-node-externals": "^3.0.0",
     "autoprefixer": "^10.4.14",
     "nodemon": "^2.0.22",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0",
     "sass": "^1.60.0",
-    "sirv-cli": "^2.0.2",
     "stylelint": "^14.16.1",
-    "stylelint-config-twbs-bootstrap": "^7.0.0"
+    "stylelint-config-twbs-bootstrap": "^7.0.0",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1"
   }
 }

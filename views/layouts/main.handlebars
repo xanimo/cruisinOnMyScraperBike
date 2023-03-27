@@ -4,8 +4,8 @@
     <meta charset="utf-8">
 	<meta name="viewport"
 		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<link href="/scripts/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+	<link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>auth</title>
   </head>
   <body>
@@ -15,14 +15,27 @@
 	{{> footer}}
 	</div>
 
-    <script async src="/scripts/es-module-shims.js"></script>
+    <script async src="/public/es-module-shims.js"></script>
     <script type="importmap">
     {
       "imports": {
-        "@popperjs/core": "/scripts/esm/popper.js",
-        "bootstrap": "/scripts/js/bootstrap.esm.min.js"
+        "@popperjs/core": "/public/esm/popper.js",
+        "bootstrap": "/public/js/bootstrap.esm.min.js"
       }
     }
     </script>
+	<script type="module">
+		import * as bootstrap from 'bootstrap'
+		const triggerTabList = document.querySelectorAll('#my-tab button')
+		triggerTabList.forEach(triggerEl => {
+			const tabTrigger = new bootstrap.Tab(triggerEl)
+
+			triggerEl.addEventListener('click', event => {
+				event.preventDefault()
+				tabTrigger.show()
+			})
+		})
+	</script>
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>
